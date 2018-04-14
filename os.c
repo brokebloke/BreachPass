@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 
+/* Attempt at multi OS support, not in use*/
+/*
 #if defined (__linux__)
 const char defaultConfigPath()
 {
@@ -21,8 +23,9 @@ const char defaultConfigPath()
 }
 
 #endif
+*/
 
-
+/* Gets the PATH of the current user, slightly buggy */
 char *getPWMPath()
 {
   FILE *fp;
@@ -39,6 +42,9 @@ char *getPWMPath()
   return path;
 }
 
+/* Standardizes file opening so that a command and path can be run, while properly reading the stream and properly outputting the data in a char array*/
+/* Most of this code was borrowed from a generous coder */
+
 char *runCommand(char cmd[], char pwmpath[])
 {
   char buf[100];
@@ -51,6 +57,7 @@ char *runCommand(char cmd[], char pwmpath[])
   unsigned int size = 1;  // start with size of 1 to make room for null terminator
   unsigned long strlength;
 
+  /* Opens file with crafted string, exits on failure */
   FILE *ls;
   if (NULL == (ls = popen(fullcmd, "r"))) {
     perror("popen");

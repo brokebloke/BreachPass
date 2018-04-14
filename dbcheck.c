@@ -2,6 +2,7 @@
 #include <strings.h>
 #include <stdbool.h>
 
+/* String compares against domain and the haveibeenpwend database and returns true if a match is found */
 bool checkDomainAgainstBreach(char lpassdata[], char pwnedata[])
 {
     char *a;

@@ -3,8 +3,9 @@
 #include <string.h>
 #include <stdlib.h>
 
-int http_get_response(void *buffer, size_t size, size_t rxed, char **msg_in);
+int http_get_response(void *buffer, size_t size, size_t rxed, char **msg_in); // Xcode requires it to be defined here because of it's use
 
+/* Pulls data from a crafted URL defined as url, then sends the output to a string, tokenizes the format to be read as newlines and returns the char array*/
 char *pullDatabaseData(char *data) 
 {
     char url[200];
@@ -18,30 +19,29 @@ char *pullDatabaseData(char *data)
     int x = 0;
     if(curl) 
     {
-        CURLcode res;
         curl_easy_setopt(curl, CURLOPT_URL, url);
-        curl_easy_setopt(curl, CURLOPT_USERAGENT, "BreachPass/1.0");
+        curl_easy_setopt(curl, CURLOPT_USERAGENT, "BreachPass/1.0"); // Required for haveibeenpwned
 
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http_get_response);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &msg_in);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, http_get_response); // writes response to return nothing (required in order to write data)
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &msg_in); // writes data to a char array and returns it
         curl_easy_perform(curl);
         curl_easy_cleanup(curl);
     }
-    a = strtok(msg_in, "[{,\"}]");
-    while(a != NULL)
+    a = strtok(msg_in, "[{,\"}]"); // Tokenizes the data retrieved
+    while(a != NULL) // Loops through the tokenized data
     {
-        if(x % 2 != 0)
+        if(x % 2 != 0) // Grabs the odd data from (Name\nData\nName\nData)
         {
             strcat(strout, a);
-            strcat(strout, "\n");
+            strcat(strout, "\n"); // Adds newline for formatting
         }
-        a = strtok(NULL, "[{,\":}]");
+        a = strtok(NULL, "[{,\":}]"); // Reapplies tokenizes format in case it's not applied
         x++;
     }
     return strout;
 }
 
-
+/* Grabs input data stream and returns it as nothing, then frees the data and returns the stream size */
 int http_get_response(void *buffer, size_t size, size_t rxed, char **msg_in)
 {
     char *c;
