@@ -9,11 +9,14 @@ bool lpassVerifyStatus(char input[])
 {
 	char notlogged[] = "Not logged in.";
     char notlogged2[] = "Master Password:";
-	if (strcmp(input, notlogged) || strcmp(input, notlogged2))
+	if (strcmp(input, notlogged) == 0 || strcmp(input, notlogged2) == 0)
 	{
 		return true;
 	}
-    return false;
+    else
+    {
+        return false;
+    }
 }
 /* Gathers all ID's that the user has. ID's have information such as username, passwords, domains, etc stored within */
 char *lpassGetID(char *str)
