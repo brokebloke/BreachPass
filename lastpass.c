@@ -131,15 +131,18 @@ char *lpassGeneratePassword(char path[])
 }
 
 /* Changes the password as by executing the command with the data provided */
-void lpassChangePassword(char id[], char newpass[], char path[])
+void *lpassChangePassword(char id[], char newpass[], char path[])
 {
     char *str = malloc(500);
     char line[100];
     strcpy(str, path);
-    strcat(str, "edit ");
+    strcat(str, " edit ");
+    strcat(str, " --non-interactive ");
+    strcat(str, " --password ");
     strcat(str, id);
-    strcat(str, " -p ");
+    strcat(str, " <<< ");
     strcat(str, newpass);
     FILE *fp = popen(str, "r");
     pclose(fp);
+    return NULL;
 }
