@@ -15,10 +15,12 @@ bool checkDomainAgainstBreach(char lpassdata[], char pwnedata[])
         {
             if(strcasestr(a, line) == a)
             {
+                fclose(ls);
                 return true;
             }
         }
         strcat(line, "\n");
     }
+    fclose(ls);
     return false;
 }
