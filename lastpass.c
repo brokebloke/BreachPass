@@ -119,7 +119,7 @@ char *lpassGeneratePassword(char path[])
     char *str2 = malloc(20);
     char line[100];
     strcpy(str, path);
-    strcat(str, " password 20");
+    strcat(str, " generate password 20");
     FILE *fp = popen(str, "r");
     while(fgets(line, sizeof(line), fp) != NULL)
     {
