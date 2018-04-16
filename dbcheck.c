@@ -5,15 +5,20 @@
 /* String compares against domain and the haveibeenpwend database and returns true if a match is found */
 bool checkDomainAgainstBreach(char lpassdata[], char pwnedata[])
 {
-    char *a;
-    a = strtok(lpassdata, ".:/");
-    while(a != NULL)
+    char a[200];
+    char line[100];
+    FILE *ls = fmemopen(pwnedata, strlen(pwnedata), "r");
+    while(fgets(line,sizeof(line), ls) != NULL)
     {
-        if(strcasecmp(a, pwnedata) == 0)
+        strtok(line, "\n");
+        if(sscanf(lpassdata, "%*[^/]%*[/]%[^/]", a) == 1)
         {
-            return true;
+            if(strcasestr(a, line) == a)
+            {
+                return true;
+            }
         }
-        a = strtok(NULL, ".:/");
+        strcat(line, "\n");
     }
     return false;
 }
