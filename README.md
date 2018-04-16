@@ -19,6 +19,8 @@ BreachPass solves the issue regarding self management of passwords. The average 
 ## Build & Installation
 Simply build the files with GCC with -lcurl tag 
 
+Python3 and RoboBrowser is required for website.py
+
 ## Credits
 - Various people and sources on the internet for snippets of code
 - haveibeenpwned for use of their API and their database
